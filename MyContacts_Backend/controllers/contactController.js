@@ -7,9 +7,9 @@ import Contact from '../models/contactModel.js';
 const getContacts = async (req, res) => {
     try {
         const contacts = await Contact.find({ user_id: req.user.id });
-        res.status(200).send(contacts)
+        res.status(200).json({constactsData : contacts})
     } catch (error) {
-        res.status(400).send({ message: "USER NOT FOUND" })
+        res.status(400).json({ message: "USER NOT FOUND" })
     }
 }
 
@@ -22,7 +22,7 @@ const createContact = async (req, res) => {
         console.log("The request Body is :-", req.body);
         const { name, email, phone } = req.body;
         if (!name || !email || !phone) {
-            res.status(400).send({ message: "All fields are Mandatory ! " });
+            res.status(400).json({ message: "All fields are Mandatory ! " });
         }
         const contact = await Contact.create({
             name: name,
@@ -33,7 +33,7 @@ const createContact = async (req, res) => {
         res.status(201).json({contact : contact});
     }
     catch (error) {
-        res.status(400).send({ message: error });
+        res.status(400).json({ message: error });
     }
 }
 
@@ -46,14 +46,14 @@ const getContact = async (req, res) => {
         const { id } = req.params;
         const contact = await Contact.findById({ _id: id });
         if (contact) {
-            res.status(200).send(contact);
+            res.status(200).json({contactData : contact});
         }
         else {
-            res.status(404).send("CONTACT NOT FOUND");
+            res.status(404).json({msg : "CONTACT NOT FOUND"});
         }
     }
     catch (error) {
-        res.status(400).send(error);
+        res.status(400).json({Error : error});
     }
 
 }
@@ -69,22 +69,22 @@ const UpdateContact = async (req, res) => {
         const contact = await Contact.findById({ _id: id });
 
         if (!contact) {
-            res.status(404).send("Contact not found");
+            res.status(404).json({msg : "Contact not found"});
         }
         else {
             if (contact.user_id.toString() !== req.user.id) {
-                res.status(403).send("You are not authorized to perform this action");
+                res.status(403).json({msg : "You are not authorized to perform this action"});
             }
             if (name) contact.name = name;
             if (email) contact.email = email;
             if (phone) contact.phone = phone;
             await contact.save();
-            res.status(200).send({ message: `Update contact for ${req.params.id}` })
+            res.status(200).json({ message: `Update contact for ${req.params.id}` })
         }
 
     }
     catch (error) {
-        res.status(400).send({ message: error })
+        res.status(400).json({ message: error })
     }
 }
 
@@ -97,15 +97,15 @@ const deleteContact = async (req, res) => {
         const { id } = req.params;
         const contact = await Contact.findById({ _id: id });
         if (contact.user_id.toString() !== req.user.id) {
-            res.status(403).send("You are not authorized to perform this action");
+            res.status(403).json({ msg : "You are not authorized to perform this action"});
         }
         else {
             await Contact.deleteOne({ _id: id });
-            res.status(200).send({ message: `Delete contact for ${req.params.id}` })
+            res.status(200).json({ message: `Delete contact for ${req.params.id}` })
         }
     }
     catch (error) {
-        res.status(400).send({ message: error })
+        res.status(400).json({ message: error })
     }
 }
 

@@ -35,6 +35,27 @@ const Contacts = () => {
         setContactData(data);
         return;
     }
+    const deleteContact=async()=>{
+        const token=localStorage.getItem('token');
+        console.log(token);
+        const res=await fetch(`${URL}/65d9b12a8b1a4c212a8ded80`,{
+            method : "DELETE",
+            headers : {
+                "Content-Type" : "application/json",
+                "Authorization"  : `Bearer ${token}` 
+            }
+        })
+        const data=await res.json();
+        if(res.status===200){
+            window.alert("Contact Deleted Successfully !");
+            console.log("Contact Deleted Successfully !")
+            console.log(data);
+        }
+        else{
+            window.alert("Error in Deleting Contact");
+            console.log("Error in Deleting Contact")
+        }
+    }
     console.log(contactsData);
     console.log(contactData);
 
@@ -45,6 +66,8 @@ const Contacts = () => {
             </Link><br/>
             <button type='submit' onClick={getContacts}>Get Contacts</button><br/>
             <button type='submit' onClick={getContact}>Get Contact</button><br/>
+            <button type='submit' onClick={deleteContact}>Delete Contact</button><br/>
+
 
         </div>
     )
