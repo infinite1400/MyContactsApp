@@ -7,7 +7,7 @@ import Contact from '../models/contactModel.js';
 const getContacts = async (req, res) => {
     try {
         const contacts = await Contact.find({ user_id: req.user.id });
-        res.status(200).json({constactsData : contacts})
+        res.status(200).json(contacts);
     } catch (error) {
         res.status(400).json({ message: "USER NOT FOUND" })
     }

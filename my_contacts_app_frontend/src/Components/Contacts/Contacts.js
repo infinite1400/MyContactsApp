@@ -5,10 +5,10 @@ import Loading from '../Loading';
 // import { Button } from 'react-scroll'
 const URL = 'http://localhost:5001/api/contacts';
 const Contacts = () => {
-    const [contactsData, setContactsData] = useState({});
+    const [contactsData, setContactsData] = useState([]);
     const [contactData, setContactData] = useState({});
-    const navigate=useNavigate();
-    useEffect(()=>{
+    const navigate = useNavigate();
+    useEffect(() => {
         const getContacts = async () => {
             console.log("click")
             const token = localStorage.getItem('token');
@@ -22,11 +22,11 @@ const Contacts = () => {
             })
             const data = await res.json();
             setContactsData(data);
-            return;
-        }   
+        }
         getContacts();
-    },[])
-    console.log(contactsData)
+    }, [])
+    if (!contactsData.length) { return <Loading /> }
+    console.log(contactsData);
     const getContact = async () => {
         console.log("click")
         const token = localStorage.getItem('token');
@@ -64,24 +64,21 @@ const Contacts = () => {
         }
     }
     console.log(contactData);
-    const updatePage=()=>{
+    const updatePage = () => {
         navigate('/contacts/update');
     }
-    // if(!contactsData){
-    //     <Loading/>
-    // }
     return (
         <div className='Contacts'>
-            <Loading/>
+            {/* <Loading /> */}
             <Link to={'/contacts/create'}>
                 <button type='Button' color='Black'>Create</button>
             </Link><br />
             <button type='submit'>Get Contacts</button><br />
-            {/* {
-                contactsData.map((Contact)=>(
-                    <ContactCard Contact={Contact} />
+            {
+                contactsData.map((contact, index) => (
+                    <ContactCard key={index} Contact={contact} />
                 ))
-            } */}
+            }
             <button type='submit' onClick={getContact}>Get Contact</button><br />
             <button type='submit' onClick={updatePage}>Update Contact</button><br />
             <button type='submit' onClick={deleteContact}>Delete Contact</button><br />
