@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import '../../Css/Contacts.css'
 import ContactCard from './ContactCard';
 import Loading from '../Loading';
@@ -9,7 +9,6 @@ const Contacts = () => {
     const [contactsData, setContactsData] = useState([]);
     const [contactData, setContactData] = useState([]);
     const data = contactsData;
-    const navigate = useNavigate();
     useEffect(() => {
         const getContacts = async () => {
             console.log("click")
@@ -45,10 +44,6 @@ const Contacts = () => {
         return;
     }
     console.log(contactData);
-    const updatePage = () => {
-        navigate('/contacts/update');
-    }
-    const jj = contactsData;
     return (
         <div className='Contacts'>
             <Link to={'/contacts/create'}>

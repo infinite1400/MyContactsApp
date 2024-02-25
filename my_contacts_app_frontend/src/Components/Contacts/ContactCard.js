@@ -1,6 +1,8 @@
 import React from 'react'
 import '../../Css/ContactCard.css'
+import { useNavigate } from 'react-router-dom';
 const ContactCard = ({ Contact }) => {
+  const navigate=useNavigate();
   const id = Contact._id;
   console.log(id);
   const deleteContact = async () => {
@@ -24,7 +26,9 @@ const ContactCard = ({ Contact }) => {
       console.log("Error in Deleting Contact")
     }
   }
-
+  const updatePage = () => {
+    navigate('/contacts/update',{state : Contact});
+}
   return (
     <div className='contact-card'>
       <div className='contact-card_info'>
@@ -39,7 +43,7 @@ const ContactCard = ({ Contact }) => {
         </div>
       </div>
       <div className='contact-card_btn'>
-        <button type='submit' >Update</button>
+        <button type='submit' onClick={updatePage} >Update</button>
         <button type='submit' onClick={deleteContact}>Delete</button>
       </div>
     </div>
