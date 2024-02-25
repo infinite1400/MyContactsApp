@@ -1,20 +1,47 @@
 import React from 'react'
+import '../../Css/ContactCard.css'
+const ContactCard = ({ Contact }) => {
+  const id = Contact._id;
+  console.log(id);
+  const deleteContact = async () => {
+    const token = localStorage.getItem('token');
+    console.log(token);
+    const res = await fetch(`http://localhost:5001/api/contacts/${id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`
+      }
+    })
+    const data = await res.json();
+    if (res.status === 200) {
+      window.alert("Contact Deleted Successfully !");
+      console.log("Contact Deleted Successfully !")
+      console.log(data);
+    }
+    else {
+      window.alert("Error in Deleting Contact");
+      console.log("Error in Deleting Contact")
+    }
+  }
 
-const ContactCard = ({Contact}) => {
   return (
     <div className='contact-card'>
+      <div className='contact-card_info'>
         <div className='contact-card_name'>
-            <p>Name : </p>
-            <p>{Contact.name}</p>
+          <p>Name : {Contact.name} </p>
         </div>
         <div className='contact-card_email'>
-            <p>Email : </p>
-            <p>{Contact.email}</p>
+          <p>Email : {Contact.email}</p>
         </div>
         <div className='contact-phone'>
-            <p>Phone : </p>
-            <p>{Contact.phone}</p>
+          <p>Phone : {Contact.phone}</p>
         </div>
+      </div>
+      <div className='contact-card_btn'>
+        <button type='submit' >Update</button>
+        <button type='submit' onClick={deleteContact}>Delete</button>
+      </div>
     </div>
   )
 }

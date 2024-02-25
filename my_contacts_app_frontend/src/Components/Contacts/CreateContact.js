@@ -1,7 +1,9 @@
 import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom';
 
 const CreateContact = () => {
     const [contactData, setContactData] = useState({});
+    const navigate=useNavigate();
     const handleInputs = (event) => {
         setContactData({ ...contactData, [event.target.name]: event.target.value })
     }
@@ -36,6 +38,7 @@ const CreateContact = () => {
             window.alert("Contact created successfully");
             console.log("Contact created successfully");
             console.log(data);
+            navigate('/contacts');
             return;
         }
 
