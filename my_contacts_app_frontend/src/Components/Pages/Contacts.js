@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import '../../Css/Contacts.css'
-import ContactCard from './ContactCard';
+import ContactCard from '../Contacts/ContactCard';
 import Loading from '../Loading';
-// import { Button } from 'react-scroll'
 const URL = 'http://localhost:5001/api/contacts';
 const Contacts = () => {
     const [contactsData, setContactsData] = useState([]);
